@@ -18,7 +18,16 @@ public class Main extends AbstractBehavior<String> {
 
     @Override
     public Receive<String> createReceive() {
-        return newReceiveBuilder().onMessageEquals("start", this::start).build();
+        return newReceiveBuilder()
+                .onMessageEquals("start", this::start)
+                .onMessageEquals("stop", this::stop)
+                .build();
+    }
+
+    private Behavior<String> stop() {
+        ActorRef<String> first = getContext().spawn(StartStopActor1.create(), "first");
+        first.tell("stop");
+        return Behaviors.same();
     }
 
     private Behavior<String> start() {
