@@ -21,7 +21,15 @@ public class Main extends AbstractBehavior<String> {
         return newReceiveBuilder()
                 .onMessageEquals("start", this::start)
                 .onMessageEquals("stop", this::stop)
+                .onMessageEquals("supervisingTest", this::failChild)
                 .build();
+    }
+
+    private Behavior<String> failChild() {
+        ActorRef<String> supervisingActor =
+                getContext().spawn(SupervisingActor.create(), "supervising-actor");
+        supervisingActor.tell("failChild");
+        return Behaviors.same();
     }
 
     private Behavior<String> stop() {

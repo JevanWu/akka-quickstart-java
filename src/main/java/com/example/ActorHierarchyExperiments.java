@@ -8,6 +8,7 @@ public class ActorHierarchyExperiments {
     public static void main(String[] args) {
         ActorRef<String> testSystem = ActorSystem.create(Main.create(), "testSystem");
 //        testSystem.tell("start");
-        testSystem.tell("stop");
+//        testSystem.tell("stop");
+        testSystem.tell("supervisingTest");
     }
 }
